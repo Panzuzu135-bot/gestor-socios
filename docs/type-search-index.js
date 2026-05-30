@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"garcia_marcos_ejercicio06","l":"Garcia_Marcos_Ejercicio06"},{"p":"garcia_marcos_ejercicio06","l":"Socio"}];updateSearchResults();
