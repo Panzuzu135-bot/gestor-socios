@@ -7,17 +7,45 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
+
 /**
+ * Representa un <b>socio</b> dado de alta en el sistema.
  *
- * @author usuario
+ * <p>Cada socio queda identificado por:</p>
+ * <ul>
+ *   <li>Un <b>DNI</b> único, que sirve como criterio natural de orden.</li>
+ *   <li>Un <b>nombre</b> personal.</li>
+ *   <li>Una <b>fecha de alta</b> en el sistema.</li>
+ * </ul>
+ *
+ * <p>La clase implementa {@link Comparable} para que los socios puedan
+ * almacenarse en colecciones ordenadas como {@link TreeSet}, y
+ * {@link Serializable} para poder persistirlos en un fichero binario.</p>
+ *
+ * @author Marcos García Sánchez
+ * @version 1.0
  */
 class Socio implements Comparable, Serializable{
     //Atributos
+
+    /** DNI del socio. Identifica de forma única a cada socio. */
     String dni; //Tendrá un atributo DNI
+
+    /** Nombre del socio. */
     String nombre; //Tendrá un nombre
+
+    /** Fecha en la que el socio se dio de alta en el sistema. */
     LocalDate fechaAlta; //Tendrá un atributo para la fecha en la que se dio de alta
 
     //Constructor
+
+    /**
+     * Crea un nuevo socio con todos sus datos iniciales.
+     *
+     * @param dni        DNI del socio
+     * @param nombre     nombre del socio
+     * @param fechaAlta  fecha en la que se da de alta el socio
+     */
     public Socio(String dni, String nombre, LocalDate fechaAlta){
         this.dni = dni; //Establecemos el DNI en el constructor
         this.nombre = nombre; //Establecemos el nombre en el constructor
@@ -25,21 +53,60 @@ class Socio implements Comparable, Serializable{
     }
 
     //Métodos
+
+    /**
+     * Calcula los años completos transcurridos desde la fecha de alta del
+     * socio hasta el momento actual.
+     *
+     * @return la antigüedad del socio en años completos
+     */
     public long antiguedad(){ //Con este método averiguaremos la antigüedad de un Socio
         return ChronoUnit.YEARS.between(fechaAlta, LocalDate.now()); //Devolvemos la antigüedad
     }
+
+    /**
+     * Devuelve el DNI del socio.
+     *
+     * @return el DNI del socio
+     */
     public String getDni(){ //Devolveremos el DNI
         return dni; //Devolvemos el DNI
     }
+
+    /**
+     * Actualiza el nombre del socio.
+     *
+     * @param nombre nuevo nombre que se asignará al socio
+     */
     public void setNombre(String nombre){ //Estableceremos el nombre
         this.nombre = nombre; //Establecemos el nombre
     }
+
+    /**
+     * Devuelve el nombre del socio.
+     *
+     * @return el nombre del socio
+     */
     public String getNombre(){ //Devolveremos el nombre
         return nombre; //Devolvemos el nombre
     }
+
+    /**
+     * Devuelve la fecha en la que el socio fue dado de alta.
+     *
+     * @return la fecha de alta del socio
+     */
     public LocalDate getFechaAlta(){ //Devolveremos la fecha
         return fechaAlta; //Devolvemos la fecha
     }
+
+    /**
+     * Comprueba si dos socios son iguales comparando su DNI.
+     *
+     * @param objeto objeto a comparar con el socio actual
+     * @return <b>true</b> si el objeto es un socio con el mismo DNI;
+     *         <b>false</b> en caso contrario
+     */
     @Override
     public boolean equals(Object objeto){ //Usaremos el equals para saber si 2 DNI son iguales
         if(this == objeto){ //Si las referencia son iguales
@@ -51,11 +118,26 @@ class Socio implements Comparable, Serializable{
         Socio socio = (Socio) objeto; //Hacemos un cast al objeto
         return Objects.equals(dni, socio.dni); //Devolvemos la comparación
     }
+
+    /**
+     * Compara este socio con otro tomando como criterio el DNI, para poder
+     * almacenarlos ordenados en estructuras como {@link TreeSet}.
+     *
+     * @param objeto socio con el que se compara el actual
+     * @return un número negativo, cero o positivo según el DNI sea menor,
+     *         igual o mayor que el del otro socio
+     */
     @Override
     public int compareTo(Object objeto){ //Usaremos este método para comparar por DNI
         Socio socio = (Socio) objeto; //Hacemos un cast
         return this.dni.compareTo(socio.dni); //Hacemos la comparación
     }
+
+    /**
+     * Devuelve una representación textual del socio con sus datos básicos.
+     *
+     * @return cadena con el DNI, nombre y fecha de alta del socio
+     */
     @Override
     public String toString(){ //Con este método mostraremos los datos en un String
         return "Socio{"+"dni="+dni+", nombre="+nombre+", fechaAlta="+fechaAlta+'}'; //Mostramos los datos
