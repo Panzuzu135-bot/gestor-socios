@@ -143,11 +143,36 @@ class Socio implements Comparable, Serializable{
         return "Socio{"+"dni="+dni+", nombre="+nombre+", fechaAlta="+fechaAlta+'}'; //Mostramos los datos
     }
 }
+/**
+ * Clase principal del programa de <b>gestión de socios</b>.
+ *
+ * <p>Mantiene una lista de socios en memoria y ofrece, a través de un menú
+ * interactivo por consola, las siguientes operaciones:</p>
+ * <ul>
+ *   <li><b>Alta</b> de un nuevo socio.</li>
+ *   <li><b>Baja</b> de un socio existente a partir de su DNI.</li>
+ *   <li><b>Modificación</b> del nombre de un socio.</li>
+ *   <li><b>Listado</b> de socios ordenados por DNI o por antigüedad.</li>
+ *   <li><b>Persistencia</b> de la lista en un fichero binario al cerrar
+ *       el programa, recargándola al volver a iniciarse.</li>
+ * </ul>
+ *
+ * @author Marcos García Sánchez
+ * @version 1.0
+ */
 public class Garcia_Marcos_Ejercicio06 {
+
+    /** Lista de socios del sistema, mantenida ordenada por DNI mediante un {@link TreeSet}. */
     static Set<Socio> listaSocios = new TreeSet<>(); //Creamos un conjunto para los socios
+
+    /** Nombre del fichero binario donde se persiste la lista de socios. */
     static String fichero = "socios.dat"; //Creamos e inicializamos el fichero
-    /**Vamos a crear la clase Socio y la gestionaremos
-     * guardando datos en un fichero .dat
+
+    /**
+     * Guarda la lista completa de socios en el fichero binario configurado.
+     *
+     * <p>Cualquier error de entrada/salida durante el proceso se captura y se
+     * informa por consola, sin propagarse al método que invoca.</p>
      */
     public static void guardarFichero(){ //Con esta función guardaremos los datos en un fichero binario
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fichero))){ //Intentaremos meter los datos en el fichero
@@ -158,6 +183,11 @@ public class Garcia_Marcos_Ejercicio06 {
             System.out.println("Ha ocurrido un error en el proceso IO"); //Mostramos otro mensaje para esta excepción
         }
     }
+    /**
+     * Muestra por consola el listado completo de socios ordenados por DNI.
+     *
+     * <p>Si la lista está vacía, muestra un mensaje indicándolo.</p>
+     */
     public static void listadoDNI(){ //Con esta función listaremos por DNI
         if(listaSocios.isEmpty()){ //Si no hay socios
             System.out.println("No hay socios en la lista"); //Mostramos un mensaje
@@ -167,6 +197,15 @@ public class Garcia_Marcos_Ejercicio06 {
             }
         }
     }
+    /**
+     * Modifica el nombre de un socio identificado por su DNI.
+     *
+     * <p>Pide por consola el DNI del socio a modificar y, si lo encuentra,
+     * solicita el nuevo nombre y lo actualiza.</p>
+     *
+     * @param sc <b>Scanner</b> conectado a la entrada estándar para leer
+     *           los datos introducidos por el usuario
+     */
     public static void modificar(Scanner sc){ //Con esta función modificaremos un socio
         System.out.println("Introduce el DNI del socio a modificar"); //Pedimos el DNI del socio
         String dni = sc.nextLine(); //Leemos el DNI
@@ -179,6 +218,15 @@ public class Garcia_Marcos_Ejercicio06 {
         }
         System.out.println("No se ha encontrado el socio"); //Mostramos un mensaje de error
     }
+    /**
+     * Elimina del sistema un socio identificado por su DNI.
+     *
+     * <p>Pide por consola el DNI del socio a borrar y lo elimina si existe.
+     * Muestra un mensaje informando del resultado de la operación.</p>
+     *
+     * @param sc <b>Scanner</b> conectado a la entrada estándar para leer
+     *           los datos introducidos por el usuario
+     */
     public static void baja(Scanner sc){ //Con esta función eliminaremos socios
         System.out.println("Introduce el DNI del socio que vamos a remover"); //Pedimos el DNI del socio
         String dni = sc.nextLine(); //Leemos el DNI
@@ -188,6 +236,15 @@ public class Garcia_Marcos_Ejercicio06 {
             System.out.println("No se ha podido eliminar al socio"); //Mostramos un mensaje de error
         }
     }
+    /**
+     * Da de alta un nuevo socio en el sistema con la fecha actual.
+     *
+     * <p>Pide por consola el DNI y el nombre del nuevo socio y lo añade
+     * a la lista. Si ya existe un socio con el mismo DNI, informa al usuario.</p>
+     *
+     * @param sc <b>Scanner</b> conectado a la entrada estándar para leer
+     *           los datos introducidos por el usuario
+     */
     public static void alta(Scanner sc){ //Con esta función daremos de alta a un socio
         System.out.println("Introduce el DNI"); //Pedimos el DNI
         String dni = sc.nextLine(); //Leemos el DNI
@@ -201,6 +258,13 @@ public class Garcia_Marcos_Ejercicio06 {
             System.out.println("No se ha podido aniadir el socio"); //Mostramos un mensaje de error
         }
     }
+    /**
+     * Carga la lista de socios desde el fichero binario configurado.
+     *
+     * <p>Si el fichero no existe (primera ejecución del programa), parte de
+     * una lista vacía. Cualquier error de E/S o de clase no encontrada se
+     * informa por consola sin propagarse.</p>
+     */
     public static void cargarFichero(){ //Con esta función cargaremos el fichero al inicio
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fichero))){ //Intentamos con recursos
             listaSocios = (TreeSet<Socio>) in.readObject(); //Leemos el fichero
@@ -212,6 +276,15 @@ public class Garcia_Marcos_Ejercicio06 {
             System.out.println("No se encuentra la clase"); //Mostramos un mensaje
         }
     }
+    /**
+     * Punto de entrada del programa.
+     *
+     * <p>Carga el fichero de socios si existe, muestra el menú principal en
+     * bucle hasta que el usuario elige salir, y guarda la lista al cerrar
+     * el programa para no perder los cambios.</p>
+     *
+     * @param args argumentos de línea de comandos (no se utilizan)
+     */
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in); //Creamos el objeto sc
