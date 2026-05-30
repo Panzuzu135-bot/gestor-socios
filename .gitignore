@@ -1,0 +1,27 @@
+# Archivos compilados de Java
+*.class
+
+# Carpetas de salida de compilación
+bin/
+out/
+build/
+dist/
+
+# Configuración de IDEs (IntelliJ y VS Code)
+.idea/
+.vscode/
+*.iml
+
+# Configuración privada de NetBeans
+nbproject/private/
+
+# Archivos temporales del sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Logs
+*.log
+
+# Fichero de datos generado por la aplicación
+socios.dat
